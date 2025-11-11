@@ -1,12 +1,17 @@
 import psycopg2
+from psycopg2.extras import RealDictCursor
+from dotenv import load_dotenv
+import os
 
 class DatabaseConnection:
     def __init__(self):
-        self.host = "localhost"
-        self.port = 5432
-        self.user = "postgres"
-        self.password = "postgres"
-        self.dbname = "products_db"
+        load_dotenv()  # Загружаем переменные из .env
+
+        self.host = os.getenv("DB_HOST")
+        self.port = os.getenv("DB_PORT")
+        self.user = os.getenv("DB_USER")
+        self.password = os.getenv("DB_PASSWORD")
+        self.dbname = os.getenv("DB_NAME")
 
     def get_connection(self):
         return psycopg2.connect(
@@ -14,5 +19,5 @@ class DatabaseConnection:
             port=self.port,
             user=self.user,
             password=self.password,
-            dbname = self.dbname
+            dbname=self.dbname
         )
