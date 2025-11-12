@@ -11,3 +11,4 @@ class UserRepository:
         with self.db.get_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("SELECT * FROM users WHERE username = %s", (username,))
             return cur.fetchone()
+

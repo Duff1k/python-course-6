@@ -1,3 +1,4 @@
+import hashlib
 from repository.UserRepository import UserRepository
 
 
@@ -9,4 +10,10 @@ class AuthService:
         user = self.user_repo.get_user_by_username(username)
         if not user:
             return False
-        return user["password"] == password
+
+        password_hash = self._hash_password(password)
+        return user["password"] == password_hash
+
+    def _hash_password(self, password: str) -> str:
+        return hashlib.sha256(password.encode()).hexdigest()
+
