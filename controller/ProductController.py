@@ -4,8 +4,8 @@ from flask import request, jsonify
 from service.AuthService import AuthService
 from service.ProductService import ProductService
 
-app = flask.Flask(__name__)
 
+app = flask.Flask(__name__)
 product_service = ProductService()
 auth_service = AuthService()
 
@@ -56,5 +56,3 @@ def delete_product(product_id: int):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
