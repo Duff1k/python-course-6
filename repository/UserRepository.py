@@ -10,7 +10,7 @@ class UserRepository:
             cur.execute("SELECT * FROM users WHERE username = %s", (username,))
             return cur.fetchone()
 
-    # ДОБАВЬ ЭТОТ МЕТОД
+    
     def create_user(self, username: str, password: str):
         with self.db.get_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute("INSERT INTO users (username, password) VALUES (%s, %s) RETURNING *;", 
