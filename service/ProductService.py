@@ -13,26 +13,27 @@ class ProductService:
             raise ValueError("Product not found")
         return product
 
-    def create(self, data: dict):
+    def create(self, data):
         name = data.get("name")
         price = data.get("price")
         if not name or price is None:
-            raise ValueError("Product name or price is required")
-        return self.repo.create(name, price)
+            raise ValueError("Fields 'name' and 'price' are required")
+        return self.repo.create(name, float(price))
 
-    def update(self, product_id: int, data: dict):
-        product = self.repo.get_by_id(product_id)
+    def update(self, product_id, data):
+        name = data.get("name")
+        price = data.get("price")
+        if not name or price is None:
+            raise ValueError("Fields 'name' and 'price' are required")
+        product = self.repo.update(product_id, name, float(price))
         if not product:
             raise ValueError("Product not found")
-        name  = data.get("name", product["name"])
-        price = data.get("price", product["price"])
-        return self.repo.update(product_id, name, price)
+        return product
 
-    def delete(self, product_id: int):
+    def delete(self, product_id):
         deleted = self.repo.delete(product_id)
         if not deleted:
             raise ValueError("Product not found")
-        return True
-
+        return {"deleted": True}
 
 
