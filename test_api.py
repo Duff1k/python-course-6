@@ -38,7 +38,7 @@ def test_get_nonexistent_product():
     response = requests.get(f"{BASE_URL}/products/9999")
     print(f"   GET /products/9999 - Status: {response.status_code}")
     if response.status_code == 404:
-        print("   ✅ Корректно вернул 404 для несуществующего продукта")
+        print(" Корректно вернул 404 для несуществующего продукта")
     print("-" * 50)
 
 def test_create_product():
@@ -67,7 +67,7 @@ def test_unauthorized_create():
     response = requests.post(f"{BASE_URL}/products", json=data)
     print(f"   POST /products (no auth) - Status: {response.status_code}")
     if response.status_code == 401:
-        print("   ✅ Корректно требует авторизацию")
+        print("Корректно требует авторизацию")
     print("-" * 50)
 
 def test_update_product():
@@ -138,7 +138,7 @@ def run_all_tests():
         test_update_product()
         test_delete_product()
         
-        print("✅ ВСЕ ТЕСТЫ ЗАВЕРШЕНЫ")
+        print("ВСЕ ТЕСТЫ ЗАВЕРШЕНЫ")
         
     except requests.exceptions.ConnectionError:
         print(" ОШИБКА: Не могу подключиться к серверу")
@@ -147,4 +147,5 @@ def run_all_tests():
         print(f" ОШИБКА: {e}")
 
 if __name__ == "__main__":
+
     run_all_tests()
