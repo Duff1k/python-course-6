@@ -1,0 +1,6 @@
+db_conf:
+  host: localhost
+  port: 4321
+  user: postgres
+  password: postgres
+  dbname: products_db

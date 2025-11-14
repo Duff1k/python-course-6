@@ -1,12 +1,15 @@
 import psycopg2
+import yaml
 
 class DatabaseConnection:
     def __init__(self):
-        self.host = "localhost"
-        self.port = 5432
-        self.user = "postgres"
-        self.password = "postgres"
-        self.dbname = "products_db"
+        with open('../configDB.yml', 'r') as f:
+            data = yaml.full_load(f)
+        self.host = data['db_conf']['host']
+        self.port = data['db_conf']['port']
+        self.user = data['db_conf']['user']
+        self.password = data['db_conf']['password']
+        self.dbname = data['db_conf']['dbname']
 
     def get_connection(self):
         return psycopg2.connect(
