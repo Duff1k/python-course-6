@@ -1,18 +1,15 @@
 import psycopg2
+from config import Config
 
 class DatabaseConnection:
     def __init__(self):
-        self.host = "localhost"
-        self.port = 5432
-        self.user = "postgres"
-        self.password = "postgres"
-        self.dbname = "products_db"
+        self.config = Config()
 
     def get_connection(self):
         return psycopg2.connect(
-            host=self.host,
-            port=self.port,
-            user=self.user,
-            password=self.password,
-            dbname = self.dbname
+            host=self.config.DB_HOST,
+            port=self.config.DB_PORT,
+            user=self.config.DB_USER,
+            password=self.config.DB_PASSWORD,
+            dbname=self.config.DB_NAME
         )
