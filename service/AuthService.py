@@ -10,3 +10,6 @@ class AuthService:
         if not user:
             return False
         return user["password"] == password
+
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        return user["password_hash"] == password_hash
