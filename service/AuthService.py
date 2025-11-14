@@ -1,3 +1,4 @@
+import hashlib
 from repository.UserRepository import UserRepository
 
 
