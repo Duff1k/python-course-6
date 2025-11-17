@@ -1,0 +1,81 @@
+from database import UserDatabase
+
+def test_all_queries():
+    """Тестирование всех запросов к БД"""
+    db = UserDatabase()
+    
+    print("=== ТЕСТИРОВАНИЕ БАЗЫ ДАННЫХ ===\n")
+    
+    print("1. Создание пользователей:")
+    users = [
+        ("alice", "password123", "alice@example.com"),
+        ("bob", "securepass", "bob@example.com"),
+        ("charlie", "mypassword", "charlie@example.com")
+    ]
+    
+    for username, password, email in users:
+        success = db.create_user(username, password, email)
+        status = "УСПЕХ" if success else "ОШИБКА"
+        print(f"   Создание {username}: {status}")
+    
+    print()
+    
+    print("2. Попытка создания дубликата:")
+    success = db.create_user("alice", "anotherpass", "alice2@example.com")
+    print(f"   Создание duplicate alice: {'ОШИБКА (ожидаемо)' if not success else 'УСПЕХ'}")
+    print()
+
+    print("3. Аутентификация пользователей:")
+    test_auth = [
+        ("alice", "password123", True),
+        ("alice", "wrongpass", False),
+        ("bob", "securepass", True),
+        ("nonexistent", "pass", False)
+    ]
+    
+    for username, password, expected in test_auth:
+        result = db.authenticate_user(username, password)
+        status = "УСПЕХ" if result == expected else "ОШИБКА"
+        print(f"   Аутентификация {username}: {result} ({status})")
+    
+    print()
+    
+    print("4. Получение информации о пользователях:")
+    for username in ["alice", "bob", "nonexistent"]:
+        user_info = db.get_user(username)
+        if user_info:
+            print(f"   Пользователь {username}: {user_info}")
+        else:
+            print(f"   Пользователь {username}: не найден")
+    
+    print()
+    
+    print("5. Обновление пароля:")
+    success = db.update_password("alice", "newpassword456")
+    print(f"   Обновление пароля alice: {'УСПЕХ' if success else 'ОШИБКА'}")
+    
+    auth_result = db.authenticate_user("alice", "newpassword456")
+    print(f"   Проверка нового пароля: {'УСПЕХ' if auth_result else 'ОШИБКА'}")
+    
+    auth_result_old = db.authenticate_user("alice", "password123")
+    print(f"   Старый пароль не работает: {'УСПЕХ' if not auth_result_old else 'ОШИБКА'}")
+    print()
+    
+    print("6. Список всех пользователей:")
+    all_users = db.get_all_users()
+    for user in all_users:
+        print(f"   - {user['username']} ({user['email']})")
+    print()
+
+    print("7. Удаление пользователя:")
+    success = db.delete_user("charlie")
+    print(f"   Удаление charlie: {'УСПЕХ' if success else 'ОШИБКА'}")
+    
+
+    user_info = db.get_user("charlie")
+    print(f"   Проверка удаления: {'УСПЕХ' if user_info is None else 'ОШИБКА'}")
+    
+    print("\n=== ТЕСТИРОВАНИЕ ЗАВЕРШЕНО ===")
+
+if __name__ == "__main__":
+    test_all_queries()
