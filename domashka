@@ -1,0 +1,54 @@
+from database import UserDatabase
+
+def main():
+    db = UserDatabase()
+    
+    while True:
+        print("\n=== СИСТЕМА УПРАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯМИ ===")
+        print("1. Создать пользователя")
+        print("2. Войти в систему")
+        print("3. Показать всех пользователей")
+        print("4. Выйти")
+        
+        choice = input("\nВыберите действие: ")
+        
+        if choice == "1":
+            username = input("Имя пользователя: ")
+            password = input("Пароль: ")
+            email = input("Email (необязательно): ") or None
+            
+            if db.create_user(username, password, email):
+                print("Пользователь успешно создан!")
+            else:
+                print("Ошибка при создании пользователя")
+        
+        elif choice == "2":
+            username = input("Имя пользователя: ")
+            password = input("Пароль: ")
+            
+            if db.authenticate_user(username, password):
+                user_info = db.get_user(username)
+                print(f"Вход выполнен! Добро пожаловать, {username}!")
+                print(f"   Email: {user_info['email']}")
+                print(f"   Дата регистрации: {user_info['created_at']}")
+            else:
+                print("Неверное имя пользователя или пароль")
+        
+        elif choice == "3":
+            users = db.get_all_users()
+            if users:
+                print("\n Список пользователей:")
+                for user in users:
+                    print(f"   - {user['username']} ({user['email']})")
+            else:
+                print("📭 Пользователи не найдены")
+        
+        elif choice == "4":
+            print("До свидания!")
+            break
+        
+        else:
+            print("Неверный выбор")
+
+if __name__ == "__main__":
+    main()
