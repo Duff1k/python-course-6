@@ -14,19 +14,19 @@ class ProductService:
         return product
 
     def create(self, data: dict):
-        name = data.get("name")
-        price = data.get("price")
+        name = data.get('name')
+        price = data.get('price')
         if not name or price is None:
-            raise ValueError("Product name or price is required")
-        return self.repo.create(name, price)
+            raise ValueError("Name or price is required")
+        return self.repo.create(name, float(price))
 
     def update(self, product_id: int, data: dict):
         product = self.repo.get_by_id(product_id)
         if not product:
             raise ValueError("Product not found")
-        name  = data.get("name", product["name"])
+        name = data.get("name", product["name"])
         price = data.get("price", product["price"])
-        return self.repo.update(product_id, name, price)
+        return self.repo.update(product_id, name, float(price))
 
     def delete(self, product_id: int):
         deleted = self.repo.delete(product_id)
