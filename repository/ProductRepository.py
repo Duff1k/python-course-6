@@ -5,6 +5,17 @@ class ProductRepository:
     def __init__(self):
         self.db = DatabaseConnection()
 
+    def init_table(self):
+        with self.db.get_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS products (
+                    id    SERIAL PRIMARY KEY,
+                    name  TEXT NOT NULL,
+                    price NUMERIC NOT NULL
+                );
+            ''')
+            conn.commit()
+
     def get_all(self):
         with self.db.get_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute('''

@@ -14,6 +14,3 @@ class AuthService():
     def hash_password(self, password: str) -> str:
         return generate_password_hash(password)
 
-    def create_user(self, username: str, password: str):
-        password_hash = self.hash_password(password)
-        return self.user_repo.create_user(username, password_hash)

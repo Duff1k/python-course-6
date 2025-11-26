@@ -4,6 +4,9 @@ class ProductService:
     def __init__(self):
         self.repo = ProductRepository()
 
+    def init_schema(self):
+        self.repo.init_table()
+
     def list_all(self):
         return self.repo.get_all()
 

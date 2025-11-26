@@ -5,6 +5,17 @@ class UserRepository():
     def __init__(self):
         self.db = DatabaseConnection()
 
+    def init_table(self):
+        with self.db.get_connection() as conn, conn.cursor() as cur:
+            cur.execute('''
+                CREATE TABLE IF NOT EXISTS users (
+                    id       SERIAL PRIMARY KEY,
+                    username TEXT NOT NULL,
+                    password TEXT NOT NULL
+                );
+            ''')
+            conn.commit()
+
     def get_user_by_username(self, username: str):
         with self.db.get_connection() as conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute('''
